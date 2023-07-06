@@ -1,12 +1,15 @@
 package org.LibraryManagementSystem;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class LibraryManagementSystem {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         Library library = new Library();
-        Scanner scanner = new Scanner(System.in);
+        library.establishConnection();  // Establish the database connection
+        library.createTables();      // Create database tables
 
+        Scanner scanner = new Scanner(System.in);
         // Add sample books
         library.addBook(new Book(1, "Java Programming", "John Smith"));
         library.addBook(new Book(2, "Clean Code", "Robert C. Martin"));
@@ -15,9 +18,9 @@ public class LibraryManagementSystem {
         library.addBook(new Book(5, "Eloquent JavaScript", "Marijn Haverbeke"));
         library.addBook(new Book(6, "Eloquent Ruby ", "Russ Olsen"));
         library.addBook(new Book(7, "Programming Pearls", "Joe Bentley"));
+        library.addBook(new Book(8, "Programming", "Joe Bentley"));
 
-        // Add borrowers from console
-        System.out.print("Enter the number of borrowers: ");
+        System.out.print("Enter the number of borrowers: ");      // Add borrowers from console
         int numBorrowers = scanner.nextInt();
         scanner.nextLine();
 
@@ -98,6 +101,7 @@ public class LibraryManagementSystem {
                 case 0:
                     System.out.println("Exiting...");
                     scanner.close();
+                    library.closeConnection();  // Close the database connection
                     System.exit(0);
                     break;
 
